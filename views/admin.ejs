@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Admin Command Center - NTI</title>
+    <style>
+        :root {
+            --bg-color: #05070a;
+            --accent-gold: #f3e5ab;
+            --accent-gold-dark: #d4af37;
+            --text-main: #f9fafb;
+            --text-muted: #9ca3af;
+            --border-color: rgba(212, 175, 55, 0.2);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: "Times New Roman", Times, serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding: 20px;
+            font-size: 11.5pt;
+        }
+        .container { max-width: 750px; margin: 0 auto; }
+        header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--accent-gold-dark); padding-bottom: 10px; margin-bottom: 20px; }
+        h1 { color: var(--accent-gold); font-size: 12pt; text-transform: uppercase; letter-spacing: 1px; }
+        .nav-links a { color: var(--accent-gold-dark); text-decoration: none; font-size: 8.5pt; margin-left: 15px; }
+        .nav-links a:hover { text-decoration: underline; }
+        
+        form { background: rgba(15, 22, 36, 0.9); padding: 20px; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 30px; }
+        h3 { color: var(--accent-gold); font-size: 11pt; margin-bottom: 15px; text-transform: uppercase; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; color: var(--accent-gold-dark); font-size: 8.5pt; text-transform: uppercase; margin-bottom: 5px; letter-spacing: 0.5px; }
+        input, textarea { width: 100%; padding: 10px; background: #05070a; border: 1px solid var(--border-color); color: var(--text-main); font-family: inherit; border-radius: 4px; font-size: 10.5pt; }
+        textarea { height: 130px; resize: vertical; }
+        .tip { font-size: 7.5pt; color: var(--text-muted); margin-top: 4px; font-style: italic; }
+        
+        button { background: linear-gradient(135deg, var(--accent-gold-dark), #b38f27); color: #05070a; font-weight: bold; border: none; padding: 12px 20px; cursor: pointer; text-transform: uppercase; border-radius: 4px; font-family: inherit; font-size: 9.5pt; width: 100%; letter-spacing: 1px; }
+        button:hover { opacity: 0.9; }
+
+        .doc-list { background: rgba(15, 22, 36, 0.85); border: 1px solid var(--border-color); border-radius: 6px; padding: 20px; }
+        .doc-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px dashed var(--border-color); }
+        .doc-item:last-child { border-bottom: none; }
+        .doc-info h4 { color: var(--accent-gold); font-size: 10.5pt; margin-bottom: 3px; }
+        .doc-info p { font-size: 8pt; color: var(--text-muted); }
+        .actions { display: flex; gap: 8px; }
+        .btn-edit { background: #1e3a8a; color: #fff; padding: 6px 12px; border-radius: 4px; text-decoration: none; font-size: 8pt; font-weight: bold; text-transform: uppercase; }
+        .btn-delete { background: #991b1b; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 8pt; font-weight: bold; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>NTI Command Center</h1>
+            <div class="nav-links">
+                <a href="/home" target="_blank">View Public Site ↗</a>
+                <a href="<%= secretPath %>/logout">Logout 🔒</a>
+            </div>
+        </header>
+
+        <!-- Form ya Kuongeza au Kuhariri Waraka -->
+        <form action="<%= secretPath %>/save" method="POST">
+            <h3><%= editDoc ? 'Edit Document' : 'Publish New Knowledge Document' %></h3>
+            
+            <% if (editDoc) { %>
+                <input type="hidden" name="id" value="<%= editDoc.id %>">
+            <% } %>
+
+            <div class="form-group">
+                <label>Document Title</label>
+                <input type="text" name="title" required placeholder="Mf. Advanced Node.js Architecture" value="<%= editDoc ? editDoc.title : '' %>">
+            </div>
+
+            <div class="form-group">
+                <label>Sub Title</label>
+                <input type="text" name="subtitle" placeholder="Mf. Building Scalable Backends" value="<%= editDoc ? editDoc.subtitle : '' %>">
+            </div>
+
+            <div class="form-group">
+                <label>Topic / Category</label>
+                <input type="text" name="topic" required placeholder="Mf. Blueprint" value="<%= editDoc ? editDoc.topic : '' %>">
+            </div>
+
+            <div class="form-group">
+                <label>Content / Sub headings (Markdown & HTML supported)</label>
+                <textarea name="text" required placeholder="Andika maelezo hapa... Tumia # kwa vichwa vya habari, **kwa bold**, *kwa italic*"><%= editDoc ? editDoc.text : '' %></textarea>
+                <div class="tip">Unaweza kutumia tags za HTML kama &lt;span style="color: gold;"&gt;Rangi&lt;/span&gt; au alama za markdown kwa ajili ya muonekano mzuri.</div>
+            </div>
+
+            <div class="form-group">
+                <label>External Reference Link (Optional)</label>
+                <input type="text" name="link" placeholder="https://..." value="<%= editDoc ? editDoc.link : '' %>">
+            </div>
+
+            <button type="submit"><%= editDoc ? 'Update Document' : 'Save & Publish' %></button>
+            <% if (editDoc) { %>
+                <a href="<%= secretPath %>" style="display: block; text-align: center; margin-top: 10px; color: var(--text-muted); font-size: 8.5pt; text-decoration: none;">Cancel Edit</a>
+            <% } %>
+        </form>
+
+        <!-- Orodha ya Nyaraka Zilizopo (Zenye Edit na Delete) -->
+        <div class="doc-list">
+            <h3>Existing Documents</h3>
+            <% if (documents.length === 0) { %>
+                <p style="color: var(--text-muted); font-style: italic; font-size: 9pt;">Hakuna nyaraka zilizochapishwa bado.</p>
+            <% } else { %>
+                <% documents.forEach(doc => { %>
+                    <div class="doc-item">
+                        <div class="doc-info">
+                            <h4><%= doc.title %></h4>
+                            <p><%= doc.topic %> <%= doc.subtitle ? '— ' + doc.subtitle : '' %></p>
+                        </div>
+                        <div class="actions">
+                            <a href="<%= secretPath %>?edit=<%= doc.id %>" class="btn-edit">Edit</a>
+                            <form action="<%= secretPath %>/delete/<%= doc.id %>" method="POST" onsubmit="return confirm('Una uhakika unataka kufuta waraka huu?');" style="margin: 0; background: none; padding: 0; border: none;">
+                                <button type="submit" class="btn-delete">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                <% }) %>
+            <% } %>
+        </div>
+    </div>
+</body>
+</html>

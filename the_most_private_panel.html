@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NTI - Secure Control Room</title>
+    <style>
+        body {
+            font-family: "Times New Roman", Times, serif;
+            font-size: 12pt;
+            line-height: 1.6;
+            background-color: #f5f2eb;
+            color: #111;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border: 2px solid #111;
+            box-shadow: 4px 4px 0px #111;
+        }
+        h1 {
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 2px solid #111;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            font-size: 10pt;
+        }
+        input[type="text"], select, textarea {
+            width: 100%;
+            padding: 10px;
+            font-family: "Times New Roman", Times, serif;
+            font-size: 12pt;
+            border: 1px solid #111;
+            box-sizing: border-box;
+            background: #fdfbf7;
+        }
+        textarea {
+            height: 150px;
+            resize: vertical;
+        }
+        .btn {
+            background-color: #111;
+            color: #fff;
+            padding: 12px 25px;
+            font-family: "Times New Roman", Times, serif;
+            font-size: 12pt;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background-color: #d4af37;
+            color: #111;
+        }
+        .alert {
+            padding: 10px;
+            background: #fffae6;
+            border: 1px solid #d4af37;
+            margin-bottom: 15px;
+            display: none;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+        }
+        th, td {
+            border: 1px solid #111;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background: #111;
+            color: #fff;
+            text-transform: uppercase;
+            font-size: 10pt;
+        }
+        .action-btns button {
+            padding: 5px 10px;
+            margin-right: 5px;
+            cursor: pointer;
+            font-family: "Times New Roman", Times, serif;
+            font-size: 10pt;
+            border: 1px solid #111;
+        }
+        .btn-edit { background: #e6f2ff; }
+        .btn-delete { background: #ffe6e6; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>NTI Secure Admin CMS</h1>
+        <p style="text-align: center; font-style: italic;">Restricted Access • Authorized NTI-ETL Command Only</p>
+
+        <div id="duplicateAlert" class="alert">
+            <strong>Notice:</strong> This Title already exists in the library! You can select it below to update its content instead of creating a duplicate.
+        </div>
+
+        <form id="cmsForm" onsubmit="handleFormSubmit(event)">
+            <input type="hidden" id="editIndex" value="-1">
+            
+            <div class="form-group">
+                <label for="docTitle">Document Title</label>
+                <input type="text" id="docTitle" required onkeyup="checkDuplicateTitle()" placeholder="Enter unique title...">
+            </div>
+
+            <div class="form-group">
+                <label for="docTopic">Topic / Category</label>
+                <select id="docTopic" required>
+                    <option value="Blueprint">Blueprint</option>
+                    <option value="Architecture">Architecture</option>
+                    <option value="Manifesto">Manifesto</option>
+                    <option value="Protocol">Protocol</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="docText">Text / Body (Structured Headings & Content)</label>
+                <textarea id="docText" required placeholder="Write document contents using clear headings and paragraphs..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="docLink">External Link (Optional)</label>
+                <input type="text" id="docLink" placeholder="https://...">
+            </div>
+
+            <button type="submit" class="btn" id="submitBtn">Publish to Library</button>
+        </form>
+
+        <hr style="border: 0; border-top: 2px solid #111; margin: 40px 0;">
+
+        <h2>Managed Content Archive</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="adminTableBody">
+                <!-- Dynamically populated -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const ADMIN_PASSWORD = "nti2026password"; // Change password here securely
+
+        function getStoredContent() {
+            return JSON.parse(localStorage.getItem('nti_library_content')) || [
+                {
+                    title: "Vision 2040: The Decentralized Economic Machine",
+                    topic: "Blueprint",
+                    text: "True leaders do not guess future—they engineer it. NTI has evolved its macroeconomic architecture across Kenyan counties, replacing high-risk credit models with asset-backed commercial empires.",
+                    link: ""
+                },
+                {
+                    title: "The Smartphone Scientist Manifesto",
+                    topic: "Manifesto",
+                    text: "Hardware is never a structural barrier when youth possess foundational knowledge to execute production-grade software engineering entirely within mobile terminals like Termux.",
+                    link: ""
+                }
+            ];
+        }
+
+        function saveContent(contents) {
+            localStorage.setItem('nti_library_content', JSON.stringify(contents));
+        }
+
+        function checkDuplicateTitle() {
+            const titleInput = document.getElementById('docTitle').value.trim().toLowerCase();
+            const editIdx = parseInt(document.getElementById('editIndex').value);
+            const contents = getStoredContent();
+            
+            const exists = contents.some((item, index) => item.title.trim().toLowerCase() === titleInput && index !== editIdx);
+            const alertBox = document.getElementById('duplicateAlert');
+            
+            if (exists && titleInput.length > 0) {
+                alertBox.style.display = 'block';
+            } else {
+                alertBox.style.display = 'none';
+            }
+        }
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const title = document.getElementById('docTitle').value.trim();
+            const topic = document.getElementById('docTopic').value;
+            const text = document.getElementById('docText').value;
+            const link = document.getElementById('docLink').value.trim();
+            const editIndex = parseInt(document.getElementById('editIndex').value);
+
+            let contents = getStoredContent();
+
+            if (editIndex === -1) {
+                // New entry check duplicate
+                const exists = contents.some(item => item.title.trim().toLowerCase() === title.toLowerCase());
+                if (exists) {
+                    alert("A document with this title already exists! Please use a unique title or edit the existing one.");
+                    return;
+                }
+                contents.push({ title, topic, text, link });
+                alert("Successfully published to NTI Library!");
+            } else {
+                // Update existing
+                contents[editIndex] = { title, topic, text, link };
+                document.getElementById('editIndex').value = "-1";
+                document.getElementById('submitBtn').innerText = "Publish to Library";
+                alert("Document successfully updated!");
+            }
+
+            saveContent(contents);
+            document.getElementById('cmsForm').reset();
+            document.getElementById('duplicateAlert').style.display = 'none';
+            renderAdminTable();
+        }
+
+        function renderAdminTable() {
+            const tbody = document.getElementById('adminTableBody');
+            tbody.innerHTML = '';
+            const contents = getStoredContent();
+
+            if (contents.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;">No records found.</td></tr>';
+                return;
+            }
+
+            contents.forEach((item, index) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${item.title}</strong></td>
+                    <td>${item.topic}</td>
+                    <td class="action-btns">
+                        <button class="btn-edit" onclick="editRecord(${index})">Edit</button>
+                        <button class="btn-delete" onclick="deleteRecord(${index})">Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function editRecord(index) {
+            const pass = prompt("Enter Admin Password to Edit:");
+            if (pass !== ADMIN_PASSWORD) {
+                alert("Incorrect password! Access denied.");
+                return;
+            }
+
+            const contents = getStoredContent();
+            const item = contents[index];
+
+            document.getElementById('docTitle').value = item.title;
+            document.getElementById('docTopic').value = item.topic;
+            document.getElementById('docText').value = item.text;
+            document.getElementById('docLink').value = item.link || '';
+            document.getElementById('editIndex').value = index;
+            document.getElementById('submitBtn').innerText = "Update Document";
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function deleteRecord(index) {
+            const pass = prompt("Enter Admin Password to Delete:");
+            if (pass !== ADMIN_PASSWORD) {
+                alert("Incorrect password! Access denied.");
+                return;
+            }
+
+            if (confirm("Are you sure you want to permanently delete this document from the NTI library?")) {
+                let contents = getStoredContent();
+                contents.splice(index, 1);
+                saveContent(contents);
+                renderAdminTable();
+                alert("Document permanently deleted.");
+            }
+        }
+
+        // Initial load
+        renderAdminTable();
+    </script>
+</body>
+</html>

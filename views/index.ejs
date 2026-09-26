@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Home - Navakholo TerraHub Initiative</title>
+    <style>
+        :root {
+            --bg-color: #05070a;
+            --accent-gold: #f3e5ab;
+            --accent-gold-dark: #d4af37;
+            --text-main: #f9fafb;
+            --text-muted: #9ca3af;
+            --border-color: rgba(212, 175, 55, 0.2);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
+
+        body {
+            font-family: "Times New Roman", Times, serif;
+            font-size: 12pt;
+            line-height: 1.7;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding: 15px;
+            min-height: 100vh;
+        }
+
+        .container { max-width: 800px; margin: 0 auto; }
+
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 2px solid var(--accent-gold-dark);
+            padding-bottom: 12px; margin-bottom: 25px;
+        }
+
+        .logo-area { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        
+        .logo-img-wrap {
+            width: 45px; height: 45px; border-radius: 50%; overflow: hidden;
+            border: 1px solid var(--accent-gold-dark); flex-shrink: 0;
+            background: #0f1624; display: flex; align-items: center; justify-content: center;
+        }
+        .logo-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+        h1 { font-size: 12pt; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 1px; }
+        .tagline { font-size: 8pt; color: var(--text-muted); font-style: italic; }
+
+        /* Hamburger Menu Icon */
+        .hamburger-btn {
+            background: transparent; border: 1px solid var(--border-color); color: var(--accent-gold);
+            padding: 8px 12px; border-radius: 4px; cursor: pointer; font-size: 12pt;
+        }
+        .hamburger-btn:hover { background: rgba(212, 175, 55, 0.1); }
+
+        /* Nyaraka Cards */
+        .doc-card {
+            background: rgba(15, 22, 36, 0.85); border: 1px solid var(--border-color);
+            border-left: 3px solid var(--accent-gold-dark); padding: 25px;
+            border-radius: 6px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+        }
+
+        .doc-meta { font-size: 8.5pt; color: var(--accent-gold-dark); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; }
+        .doc-title { font-size: 13pt; color: var(--accent-gold); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        .doc-body { color: var(--text-main); word-wrap: break-word; }
+        .doc-body p { margin-bottom: 15px; }
+        .doc-body strong, .doc-body b { color: var(--accent-gold); font-weight: bold; }
+        .doc-body em, .doc-body i { font-style: italic; color: #e2e8f0; }
+        .doc-body h1 { font-size: 12pt; color: var(--accent-gold); margin: 15px 0 10px 0; }
+        .doc-body h2 { font-size: 11pt; color: var(--accent-gold); margin: 12px 0 8px 0; }
+        .doc-body h3 { font-size: 10pt; color: var(--accent-gold); margin: 10px 0 6px 0; }
+        .doc-body ul { margin-left: 20px; margin-bottom: 15px; }
+        .doc-body li { margin-bottom: 5px; }
+
+        .doc-footer {
+            margin-top: 20px; padding-top: 12px; border-top: 1px dashed var(--border-color);
+            display: flex; justify-content: flex-end; align-items: center; font-size: 8.5pt;
+        }
+        .ref-link { color: var(--accent-gold-dark); text-decoration: none; }
+        .ref-link:hover { text-decoration: underline; }
+
+        /* Slide-out Menu Modal for Topics */
+        #menuModal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(5, 7, 10, 0.9); display: none; justify-content: flex-end; z-index: 1000;
+        }
+        .menu-panel {
+            background: #0f1624; border-left: 1px solid var(--accent-gold-dark);
+            width: 280px; height: 100%; padding: 25px; display: flex; flex-direction: column; gap: 12px; overflow-y: auto;
+        }
+        .menu-panel h3 { font-size: 10.5pt; color: var(--accent-gold); text-transform: uppercase; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-bottom: 5px; letter-spacing: 1px; }
+        .menu-panel a { color: var(--text-main); text-decoration: none; font-size: 9.5pt; padding: 8px 10px; display: block; border-left: 2px solid transparent; transition: all 0.2s; }
+        .menu-panel a:hover { color: var(--accent-gold); border-left-color: var(--accent-gold-dark); background: rgba(212, 175, 55, 0.05); }
+        .close-menu { background: transparent; border: 1px solid var(--text-muted); color: var(--text-muted); padding: 8px; cursor: pointer; text-transform: uppercase; font-size: 8.5pt; border-radius: 4px; margin-top: auto; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <a href="/" class="logo-area">
+                <div class="logo-img-wrap">
+                    <img src="/images/nti.jpg" alt="NTI Logo">
+                </div>
+                <div>
+                    <h1>Navakholo TerraHub</h1>
+                    <div class="tagline">Execution Over Excuses • Skills Over Papers</div>
+                </div>
+            </a>
+            <!-- Hamburger Button for navigating document topics only -->
+            <button class="hamburger-btn" onclick="toggleMenu()" title="Topics Menu">≡</button>
+        </header>
+
+        <main>
+            <div id="documentsSection">
+                <% if (documents.length === 0) { %>
+                    <div style="text-align: center; color: var(--text-muted); padding: 40px; font-style: italic;">No knowledge documents published to the network yet.</div>
+                <% } else { %>
+                    <% documents.forEach(doc => { %>
+                        <article class="doc-card" id="doc-<%= doc.id %>">
+                            <div class="doc-meta"><%= doc.topic %> — Published</div>
+                            <h2 class="doc-title"><%= doc.title %></h2>
+                            <div class="doc-body" id="content-<%= doc.id %>"></div>
+                            <% if (doc.link) { %>
+                                <div class="doc-footer">
+                                    <a href="<%= doc.link %>" target="_blank" class="ref-link">External Reference ↗</a>
+                                </div>
+                            <% } %>
+                        </article>
+                        
+                        <script>
+                            (function() {
+                                const rawText = <%- JSON.stringify(doc.text || '') %>;
+                                
+                                function parseMarkdown(txt) {
+                                    if (!txt) return '';
+                                    let html = txt
+                                        .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+                                        .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+                                        .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+                                        .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+                                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                                        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                                        .replace(/^- (.*$)/gim, '<li>$1</li>');
+                                        
+                                    if (html.includes('<li>')) {
+                                        html = html.replace(/(<li>[\s\S]*?<\/li>)+/g, '<ul>$&</ul>');
+                                    }
+                                    
+                                    return html.split('\n\n').map(para => {
+                                        if (para.startsWith('<h1>') || para.startsWith('<h2>') || para.startsWith('<h3>') || para.startsWith('<ul>')) {
+                                            return para;
+                                        }
+                                        return '<p>' + para.replace(/\n/g, '<br>') + '</p>';
+                                    }).join('');
+                                }
+
+                                document.getElementById('content-<%= doc.id %>').innerHTML = parseMarkdown(rawText);
+                            })();
+                        </script>
+                    <% }) %>
+                <% } %>
+            </div>
+        </main>
+    </div>
+
+    <!-- Slide-out Hamburger Menu for Document Topics -->
+    <div id="menuModal" onclick="if(event.target === this) toggleMenu()">
+        <div class="menu-panel">
+            <h3>Knowledge Topics</h3>
+            <a href="/" onclick="toggleMenu()">⚡ Back to Landing Page</a>
+            <% if (documents.length > 0) { %>
+                <% documents.forEach(doc => { %>
+                    <a href="#doc-<%= doc.id %>" onclick="toggleMenu()">▪ <%= doc.title %> (<%= doc.topic %>)</a>
+                <% }) %>
+            <% } %>
+            <button class="close-menu" onclick="toggleMenu()">Close Menu</button>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const modal = document.getElementById('menuModal');
+            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+        }
+    </script>
+
+</body>
+</html>

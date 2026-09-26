@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NTI Secure Login</title>
+    <style>
+        :root {
+            --bg-color: #05070a;
+            --accent-gold: #f3e5ab;
+            --accent-gold-dark: #d4af37;
+            --text-main: #f9fafb;
+            --text-muted: #9ca3af;
+            --border-color: rgba(212, 175, 55, 0.3);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: "Times New Roman", Times, serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            width: 100vw;
+            padding: 20px;
+        }
+        .login-wrapper {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            max-width: 450px;
+        }
+        .login-box {
+            background: rgba(10, 15, 25, 0.9);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 40px 30px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 175, 55, 0.15);
+        }
+        h2 { 
+            color: var(--accent-gold); 
+            text-transform: uppercase; 
+            font-size: 14pt; 
+            margin-bottom: 25px; 
+            letter-spacing: 2px; 
+        }
+        input {
+            width: 100%; 
+            padding: 15px; 
+            font-family: "Times New Roman", Times, serif;
+            background: rgba(5, 7, 10, 0.9); 
+            border: 1px solid var(--border-color); 
+            color: var(--text-main);
+            border-radius: 8px; 
+            margin-bottom: 20px; 
+            text-align: center; 
+            font-size: 11pt; 
+            outline: none;
+        }
+        input:focus {
+            border-color: var(--accent-gold-dark);
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        }
+        button {
+            width: 100%; 
+            padding: 15px; 
+            background: linear-gradient(135deg, var(--accent-gold-dark), #aa8c2c);
+            color: #05070a; 
+            font-family: "Times New Roman", Times, serif; 
+            font-weight: bold; 
+            border: none;
+            border-radius: 8px; 
+            cursor: pointer; 
+            text-transform: uppercase; 
+            letter-spacing: 1.5px; 
+            font-size: 11pt;
+            transition: opacity 0.2s;
+        }
+        button:active { opacity: 0.85; }
+        .error { 
+            color: #ff416c; 
+            font-size: 10pt; 
+            margin-bottom: 15px; 
+            background: rgba(255, 65, 108, 0.1);
+            padding: 8px;
+            border-radius: 4px;
+        }
+        .back-link { 
+            display: inline-block; 
+            margin-top: 25px; 
+            color: var(--text-muted); 
+            font-size: 10pt; 
+            text-decoration: none; 
+            letter-spacing: 1px;
+        }
+        .back-link:hover { color: var(--accent-gold); }
+    </style>
+</head>
+<body>
+    <div class="login-wrapper">
+        <div class="login-box">
+            <h2>System Core Login</h2>
+            <% if (error) { %>
+                <div class="error"><%= error %></div>
+            <% } %>
+            <form action="/login" method="POST">
+                <input type="password" name="password" placeholder="Enter Secure Key..." required autofocus autocomplete="off">
+                <button type="submit">Authenticate</button>
+            </form>
+            <a href="/" class="back-link">← Return to Public Repository</a>
+        </div>
+    </div>
+</body>
+</html>

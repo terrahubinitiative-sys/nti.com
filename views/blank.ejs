@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title></title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: #05070a;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+        }
+        /* Kitufe cha siri kwenye kona ya juu kabisa kushoto */
+        .secret-trigger {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 50px;
+            height: 50px;
+            background: transparent;
+            border: none;
+            cursor: default;
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+    <button class="secret-trigger" id="secretBtn" title=""></button>
+
+    <script>
+        let tapCount = 0;
+        let tapTimer = null;
+
+        document.getElementById('secretBtn').addEventListener('click', () => {
+            tapCount++;
+            clearTimeout(tapTimer);
+            
+            if (tapCount === 5) {
+                // Ukigonga mara 5 kwa haraka, inakupeleka moja kwa moja kwenye login page
+                window.location.href = '/login';
+            } else {
+                tapTimer = setTimeout(() => {
+                    tapCount = 0;
+                }, 600); // Muda wa kusubiri kati ya kugusa na kugusa (milliseconds)
+            }
+        });
+    </script>
+</body>
+</html>

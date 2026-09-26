@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Navakholo TerraHub Initiative - NTI</title>
+    <style>
+        :root {
+            --bg-color: #05070a;
+            --accent-gold: #f3e5ab;
+            --accent-gold-dark: #d4af37;
+            --text-main: #f9fafb;
+            --text-muted: #9ca3af;
+            --border-color: rgba(212, 175, 55, 0.2);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: "Times New Roman", Times, serif;
+            font-size: 12pt;
+            line-height: 1.7;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .landing-container {
+            max-width: 650px;
+            width: 100%;
+            background: rgba(15, 22, 36, 0.95);
+            border: 1px solid var(--border-color);
+            border-left: 3px solid var(--accent-gold-dark);
+            padding: 40px 25px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.9);
+        }
+
+        .logo-badge {
+            width: 60px; height: 60px; border: 1px solid var(--accent-gold-dark);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            color: var(--accent-gold); font-weight: bold; font-size: 14pt;
+            background: radial-gradient(circle, #1a233a 0%, #05070a 100%);
+            margin: 0 auto 20px auto;
+        }
+
+        h1 { font-size: 14pt; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 5px; }
+        .tagline { font-size: 8.5pt; color: var(--text-muted); font-style: italic; margin-bottom: 25px; }
+
+        .landing-hero p { font-size: 10.5pt; color: var(--text-muted); margin-bottom: 25px; line-height: 1.6; }
+        
+        .founder-box { 
+            font-size: 9pt; color: var(--accent-gold-dark); text-transform: uppercase; 
+            letter-spacing: 1px; margin-bottom: 25px; 
+            border-top: 1px dashed var(--border-color); border-bottom: 1px dashed var(--border-color); 
+            padding: 12px 0; 
+        }
+
+        .explore-btn {
+            background: linear-gradient(135deg, var(--accent-gold-dark), #b38f27);
+            color: #05070a; font-weight: bold; border: none; padding: 14px 35px;
+            cursor: pointer; text-transform: uppercase; letter-spacing: 1.5px; border-radius: 4px;
+            font-family: "Times New Roman", Times, serif; font-size: 10pt;
+            text-decoration: none; display: inline-block; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+            transition: opacity 0.2s;
+        }
+        .explore-btn:hover { opacity: 0.9; }
+    </style>
+</head>
+<body>
+
+    <div class="landing-container">
+        <div class="logo-badge">NTI</div>
+        <h1>Navakholo TerraHub</h1>
+        <div class="tagline">Execution Over Excuses • Skills Over Papers</div>
+        
+        <div class="landing-hero">
+            <p>Welcome to the official archival repository and knowledge base of the Navakholo TerraHub Initiative. Engineered from the ground up to dismantle hardware barriers, empower rural youth through mobile smartphone terminals, and establish a decentralized financial powerhouse across Kenya and beyond.</p>
+            
+            <div class="founder-box">
+                Architect & Founder<br>
+                <strong>Ezra Wanyama (The Smartphone Scientist)</strong> — NTI-ETL01
+            </div>
+
+            <a href="/home" class="explore-btn">Enter to Explore</a>
+        </div>
+    </div>
+
+</body>
+</html>
