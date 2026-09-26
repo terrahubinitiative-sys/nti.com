@@ -1,0 +1,17 @@
+{
+  "name": "nti-web",
+  "version": "1.0.0",
+  "description": "Navakholo TerraHub Initiative web platform",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "ejs": "^3.1.9",
+    "express": "^4.19.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
