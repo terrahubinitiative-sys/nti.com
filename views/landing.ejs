@@ -2,93 +2,158 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Navakholo TerraHub Initiative - NTI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navakholo TerraHub Initiative | NTI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Playfair+Display:ital,wght@0,600;1,600&family=Plus+Jakarta+Sans:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-color: #05070a;
-            --accent-gold: #f3e5ab;
-            --accent-gold-dark: #d4af37;
-            --text-main: #f9fafb;
-            --text-muted: #9ca3af;
-            --border-color: rgba(212, 175, 55, 0.2);
+        body {
+            background-color: #030303;
+            color: #d1d5db;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            align-items: center;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        body {
-            font-family: "Times New Roman", Times, serif;
-            font-size: 12pt;
-            line-height: 1.7;
-            background-color: var(--bg-color);
-            color: var(--text-main);
+        .header {
+            width: 100%;
             display: flex;
             align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 20px;
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: #030303;
+            box-sizing: border-box;
         }
 
-        .landing-container {
-            max-width: 650px;
+        .logo-img {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 1px solid #d4af37;
+            object-fit: cover;
+            margin-right: 12px;
+        }
+
+        .brand-text h2 {
+            font-family: 'Cinzel', serif;
+            color: #d4af37;
+            font-size: 1rem;
+            letter-spacing: 1.5px;
+            margin: 0 0 2px 0;
+        }
+
+        .brand-text p {
+            font-size: 0.7rem;
+            color: #9ca3af;
+            margin: 0;
+            letter-spacing: 0.5px;
+        }
+
+        .content-container {
+            max-width: 580px;
             width: 100%;
-            background: rgba(15, 22, 36, 0.95);
-            border: 1px solid var(--border-color);
-            border-left: 3px solid var(--accent-gold-dark);
-            padding: 40px 25px;
-            border-radius: 8px;
+            padding: 40px 20px;
             text-align: center;
-            box-shadow: 0 4px 25px rgba(0,0,0,0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            box-sizing: border-box;
         }
 
-        .logo-badge {
-            width: 60px; height: 60px; border: 1px solid var(--accent-gold-dark);
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            color: var(--accent-gold); font-weight: bold; font-size: 14pt;
-            background: radial-gradient(circle, #1a233a 0%, #05070a 100%);
-            margin: 0 auto 20px auto;
+        h1 {
+            font-family: 'Cinzel', serif;
+            color: #f3e5ab;
+            font-size: 1.85rem;
+            line-height: 1.3;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+            text-transform: uppercase;
         }
 
-        h1 { font-size: 14pt; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 5px; }
-        .tagline { font-size: 8.5pt; color: var(--text-muted); font-style: italic; margin-bottom: 25px; }
-
-        .landing-hero p { font-size: 10.5pt; color: var(--text-muted); margin-bottom: 25px; line-height: 1.6; }
-        
-        .founder-box { 
-            font-size: 9pt; color: var(--accent-gold-dark); text-transform: uppercase; 
-            letter-spacing: 1px; margin-bottom: 25px; 
-            border-top: 1px dashed var(--border-color); border-bottom: 1px dashed var(--border-color); 
-            padding: 12px 0; 
+        .description {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: #9ca3af;
+            margin-bottom: 35px;
         }
 
-        .explore-btn {
-            background: linear-gradient(135deg, var(--accent-gold-dark), #b38f27);
-            color: #05070a; font-weight: bold; border: none; padding: 14px 35px;
-            cursor: pointer; text-transform: uppercase; letter-spacing: 1.5px; border-radius: 4px;
-            font-family: "Times New Roman", Times, serif; font-size: 10pt;
-            text-decoration: none; display: inline-block; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
-            transition: opacity 0.2s;
+        .divider {
+            width: 100%;
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
         }
-        .explore-btn:hover { opacity: 0.9; }
+
+        .founder-title {
+            font-family: 'Cinzel', serif;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            color: #d4af37;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .founder-name {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.05rem;
+            color: #f3f4f6;
+            margin-bottom: 40px;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-explore {
+            display: inline-block;
+            width: 100%;
+            max-width: 420px;
+            padding: 16px 20px;
+            background: linear-gradient(135deg, #ff4e50, #f9d423);
+            color: #ffffff;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: 2px;
+            text-decoration: none;
+            border-radius: 50px;
+            box-shadow: 0 0 25px rgba(255, 78, 80, 0.4);
+            transition: transform 0.2s ease;
+        }
+
+        .btn-explore:active {
+            transform: scale(0.98);
+        }
     </style>
 </head>
 <body>
 
-    <div class="landing-container">
-        <div class="logo-badge">NTI</div>
-        <h1>Navakholo TerraHub</h1>
-        <div class="tagline">Execution Over Excuses • Skills Over Papers</div>
-        
-        <div class="landing-hero">
-            <p>Welcome to the official archival repository and knowledge base of the Navakholo TerraHub Initiative. Engineered from the ground up to dismantle hardware barriers, empower rural youth through mobile smartphone terminals, and establish a decentralized financial powerhouse across Kenya and beyond.</p>
-            
-            <div class="founder-box">
-                Architect & Founder<br>
-                <strong>Ezra Wanyama (The Smartphone Scientist)</strong> — NTI-ETL01
-            </div>
-
-            <a href="/home" class="explore-btn">Enter to Explore</a>
+    <div class="header">
+        <!-- Jaribu kutumia picha moja kwa moja kutoka kwenye public, kama bado itaendelea, unaweza kubadilisha source kuwa URL ya moja kwa moja ya GitHub Raw -->
+        <img src="/nti.jpg" alt="NTI Logo" class="logo-img" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/terrahubinitiative-sys/nti.com/main/public/nti.jpg';">
+        <div class="brand-text">
+            <h2>NAVAKHOLO TERRAHUB</h2>
+            <p>Execution Over Excuses • Skills Over Papers</p>
         </div>
+    </div>
+
+    <div class="content-container">
+        <h1>The Radical Economic Revolution of NTI</h1>
+        
+        <p class="description">
+            Welcome to the official archival repository and knowledge base of the Navakholo TerraHub Initiative. Engineered from the ground up to dismantle hardware barriers, empower rural youth through mobile smartphone terminals, and establish a decentralized financial powerhouse across Kenya and beyond.
+        </p>
+
+        <div class="divider"></div>
+
+        <div class="founder-title">Architect & Founder</div>
+        <div class="founder-name">Ezra Wanyama (THE SMARTPHONE SCIENTIST) — NTI-ETL01</div>
+
+        <a href="/home" class="btn-explore">ENTER TO EXPLORE</a>
     </div>
 
 </body>
