@@ -29,13 +29,26 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(uploadsDir));
 
-// Explicit Root Sitemap & Robots (100% foolproof for Googlebot)
+// Foolproof Sitemap Route (Direct File Read + XML Header)
 app.get('/sitemap.xml', (req, res) => {
-  res.sendFile(path.join(__dirname, 'sitemap.xml'));
+  const filePath = path.join(__dirname, 'sitemap.xml');
+  if (fs.existsSync(filePath)) {
+    const xmlContent = fs.readFileSync(filePath, 'utf8');
+    res.setHeader('Content-Type', 'application/xml; charset=utf-8');
+    return res.status(200).send(xmlContent);
+  }
+  res.status(404).send('Sitemap not found');
 });
 
+// Foolproof Robots.txt Route
 app.get('/robots.txt', (req, res) => {
-  res.sendFile(path.join(__dirname, 'robots.txt'));
+  const filePath = path.join(__dirname, 'robots.txt');
+  if (fs.existsSync(filePath)) {
+    const txtContent = fs.readFileSync(filePath, 'utf8');
+    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+    return res.status(200).send(txtContent);
+  }
+  res.status(404).send('Robots.txt not found');
 });
 
 // API Routes
@@ -129,5 +142,5 @@ app.get('/', (req, res) => {
 app.use(express.static(__dirname));
 
 app.listen(PORT, () => {
-  console.log(`🚀 NTI Unified Server active at ${LIVE_URL}`);
+  console.log(`🚀 NTI Foolproof Server active at ${LIVE_URL}`);
 });
