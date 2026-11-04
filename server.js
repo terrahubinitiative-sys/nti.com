@@ -31,6 +31,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(uploadsDir));
 
+// Explicit Routes for Sitemap & Robots from Root
+app.get('/sitemap.xml', (req, res) => {
+  res.sendFile(path.join(__dirname, 'sitemap.xml'));
+});
+
+app.get('/robots.txt', (req, res) => {
+  res.sendFile(path.join(__dirname, 'robots.txt'));
+});
+
 // API Routes
 app.get('/api/achievements', (req, res) => {
   const achievements = JSON.parse(fs.readFileSync(dbPath, 'utf8') || '[]');
@@ -118,7 +127,6 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(publicDir, 'index.html'));
 });
 
-// Static Middleware (Serves sitemap.xml, robots.txt, images, and public assets automatically)
 app.use(express.static(publicDir));
 
 app.listen(PORT, () => {
