@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google-site-verification" content="KnK7fMRavFEkhzW_yI5F8W7LAt7twSg7p9Aj5OWXHwc" />
+  <title>Navakholo TerraHub: Innovations for Global Good</title>
+  <style>
+    :root {
+      --bg-dark-1: #090616;
+      --bg-dark-2: #14102b;
+      --card-bg: rgba(15, 12, 34, 0.9);
+      --gold-primary: #f59e0b;
+      --text-muted: #cbd5e1;
+      --border-color: rgba(245, 158, 11, 0.35);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; max-width: 100%; }
+    
+    body {
+      background: linear-gradient(135deg, var(--bg-dark-1) 0%, var(--bg-dark-2) 50%, #0d091e 100%);
+      color: #e2e8f0;
+      font-family: "Times New Roman", Times, serif;
+      font-size: 10pt;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    header {
+      background: rgba(13, 9, 30, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      padding: 10px 14px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .brand-group { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .brand-logo { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold-primary); }
+    .brand-text h1 { font-size: 9.5pt; font-weight: bold; color: var(--gold-primary); text-transform: uppercase; letter-spacing: 0.5px; }
+    .brand-text p { font-size: 8pt; color: var(--text-muted); font-style: italic; }
+
+    nav.nav-links { display: flex; gap: 12px; flex-wrap: wrap; }
+    nav.nav-links a { color: var(--text-muted); text-decoration: none; font-size: 9.5pt; font-weight: bold; cursor: pointer; }
+    nav.nav-links a:hover, nav.nav-links a.active { color: var(--gold-primary); }
+
+    .dashboard-container { max-width: 900px; width: 100%; margin: 0 auto; padding: 16px; flex: 1; }
+
+    .hero-banner {
+      display: flex;
+      flex-direction: column-reverse;
+      align-items: center;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 24px;
+      box-shadow: 0 6px 20px rgba(110, 56, 205, 0.2);
+      gap: 15px;
+      text-align: center;
+    }
+    @media(min-width: 768px) {
+      .hero-banner { flex-direction: row; text-align: left; padding: 24px; }
+    }
+    .hero-content { flex: 1; }
+    .hero-content h2 { font-size: 14pt; font-weight: bold; color: #fff; margin-bottom: 8px; line-height: 1.3; }
+    .hero-content h2 span { color: var(--gold-primary); }
+    .hero-content p { color: var(--text-muted); font-size: 10pt; line-height: 1.5; }
+    .hero-big-logo { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold-primary); box-shadow: 0 0 20px rgba(245, 158, 11, 0.4); }
+
+    .section-header { text-align: center; margin-bottom: 18px; }
+    .section-header h3 { font-size: 9.5pt; color: var(--gold-primary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; font-weight: bold; }
+    .section-header h2 { font-size: 13pt; color: #fff; font-weight: bold; }
+
+    .search-bar-wrapper { margin-bottom: 20px; }
+    .search-input {
+      width: 100%;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-family: "Times New Roman", Times, serif;
+      font-size: 10pt;
+      outline: none;
+    }
+    .search-input:focus { border-color: var(--gold-primary); box-shadow: 0 0 10px rgba(245, 158, 11, 0.3); }
+
+    /* Single column feed so posters display large and prominent */
+    .feed-grid { display: flex; flex-direction: column; gap: 24px; margin-bottom: 30px; }
+
+    .achievement-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 6px 25px rgba(110, 56, 205, 0.25);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-img-container {
+      width: 100%;
+      background: #05030a;
+      position: relative;
+    }
+
+    .card-img {
+      width: 100%;
+      height: auto;
+      max-height: 650px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .card-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: var(--gold-primary);
+      color: #000;
+      font-weight: bold;
+      font-size: 8.5pt;
+      padding: 4px 10px;
+      border-radius: 15px;
+      text-transform: uppercase;
+      z-index: 2;
+    }
+
+    .card-body { padding: 18px; }
+    .card-title { font-size: 13pt; font-weight: bold; color: #fff; margin-bottom: 8px; line-height: 1.3; }
+    .card-desc { color: var(--text-muted); font-size: 10pt; line-height: 1.6; margin-bottom: 16px; }
+
+    .card-footer-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(245, 158, 11, 0.2);
+      padding-top: 12px;
+    }
+    .explore-project-link { color: var(--gold-primary); text-decoration: none; font-weight: bold; font-size: 10pt; }
+    .explore-project-link:hover { text-decoration: underline; }
+    .project-count-badge { background: rgba(245, 158, 11, 0.1); border: 1px solid var(--border-color); color: var(--text-muted); font-size: 8.5pt; padding: 4px 10px; border-radius: 10px; }
+
+    .impact-milestones {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 24px 16px;
+      text-align: center;
+      box-shadow: 0 6px 25px rgba(110, 56, 205, 0.2);
+    }
+    .impact-milestones h3 { font-size: 12pt; font-weight: bold; color: #fff; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
+    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+    .stat-item h4 { font-size: 18pt; font-weight: bold; color: var(--gold-primary); margin-bottom: 4px; }
+    .stat-item p { font-size: 8.5pt; color: var(--text-muted); text-transform: uppercase; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="/" class="brand-group">
+      <img src="/logo.jpg" alt="Logo" class="brand-logo" onerror="this.style.display='none'" />
+      <div class="brand-text">
+        <h1>Navakholo TerraHub</h1>
+        <p>Execution Over Excuses</p>
+      </div>
+    </a>
+    <nav class="nav-links">
+      <a href="/" onclick="filterByCategory('ALL'); return false;">Home</a>
+      <a href="#" onclick="filterByCategory('PROJECTS'); return false;" class="active" id="nav-PROJECTS">Projects</a>
+      <a href="#" onclick="filterByCategory('INNOVATIONS'); return false;" id="nav-INNOVATIONS">Innovations</a>
+      <a href="#" onclick="filterByCategory('IMPACT'); return false;" id="nav-IMPACT">Impact</a>
+      <a href="#" onclick="filterByCategory('ABOUT'); return false;" id="nav-ABOUT">About</a>
+    </nav>
+  </header>
+
+  <main class="dashboard-container">
+    <section class="hero-banner">
+      <div class="hero-content">
+        <h2>Navakholo TerraHub: <span>Innovations for Global Good</span></h2>
+        <p>Navakholo TerraHub: Innovations for global good solutioning multi-region deployments and driving transformative environmental and economic empowerment.</p>
+      </div>
+      <div class="hero-logo-container">
+        <img src="/logo.jpg" alt="NTI Logo" class="hero-big-logo" onerror="this.style.display='none'" />
+      </div>
+    </section>
+
+    <div class="section-header">
+      <h3 id="sectionSubtitle">Complete Knowledge Base</h3>
+      <h2 id="sectionTitle">All Archives & Records</h2>
+    </div>
+
+    <div class="search-bar-wrapper">
+      <input type="text" id="searchInput" class="search-input" placeholder="Search achievements, projects, innovations..." oninput="filterAchievements()" />
+    </div>
+
+    <div class="feed-grid" id="feedGrid">
+      <!-- Dynamic Cards Render Here -->
+    </div>
+
+    <section class="impact-milestones">
+      <h3>Impact Milestones</h3>
+      <div class="stats-grid">
+        <div class="stat-item">
+          <h4>5</h4>
+          <p>Community Hubs</p>
+        </div>
+        <div class="stat-item">
+          <h4>2,000</h4>
+          <p>Users Connected</p>
+        </div>
+        <div class="stat-item">
+          <h4>3</h4>
+          <p>Global Awards</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    let allAchievements = [];
+    let currentCategory = 'ALL';
+
+    async function loadAchievements() {
+      const res = await fetch('/api/achievements');
+      allAchievements = await res.json();
+      
+      if (allAchievements.length === 0) {
+        allAchievements = [
+          {
+            id: 1,
+            title: "Introduction to Navakholo TerraHub Initiative",
+            subtitle: "Achievement Milestone",
+            category: "PROJECTS",
+            link: "#",
+            date: "2026-11-01",
+            description: "The Navakholo TerraHub Initiative (NTI) represents a pioneering decentralized economic machine designed to catalyze grassroots digital transformation in Kakamega County, Kenya.",
+            image: "/logo.jpg"
+          }
+        ];
+      }
+      
+      filterByCategory('ALL');
+    }
+
+    function filterByCategory(cat) {
+      currentCategory = cat;
+      document.querySelectorAll('nav.nav-links a').forEach(a => a.classList.remove('active'));
+      if (cat === 'ALL') {
+        document.querySelector('nav.nav-links a').classList.add('active');
+        document.getElementById('sectionSubtitle').innerText = 'Complete Knowledge Base';
+        document.getElementById('sectionTitle').innerText = 'All Archives & Records';
+      } else {
+        const activeNav = document.getElementById(`nav-${cat}`);
+        if (activeNav) activeNav.classList.add('active');
+        document.getElementById('sectionSubtitle').innerText = `${cat} Repository`;
+        document.getElementById('sectionTitle').innerText = `Archived ${cat}`;
+      }
+      renderFiltered();
+    }
+
+    function renderFiltered() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      let filtered = allAchievements;
+
+      if (currentCategory !== 'ALL') {
+        filtered = filtered.filter(item => item.category === currentCategory);
+      }
+
+      if (query) {
+        filtered = filtered.filter(item => 
+          item.title.toLowerCase().includes(query) || 
+          item.description.toLowerCase().includes(query) ||
+          item.category.toLowerCase().includes(query)
+        );
+      }
+
+      renderFeed(filtered);
+    }
+
+    function filterAchievements() {
+      renderFiltered();
+    }
+
+    function renderFeed(items) {
+      const grid = document.getElementById('feedGrid');
+      if (items.length === 0) {
+        grid.innerHTML = '<div style="text-align: center; color: var(--text-muted); padding: 40px; background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border-color);"><p style="font-size: 11pt; color: var(--gold-primary); margin-bottom: 6px;">No Records Found</p><p>No published entries match this filter.</p></div>';
+        return;
+      }
+      grid.innerHTML = items.map(item => `
+        <article class="achievement-card">
+          ${item.image ? `
+            <div class="card-img-container">
+              <img src="${item.image}" alt="${item.title}" class="card-img" onerror="this.style.display='none'" />
+              <span class="card-badge">${item.category}</span>
+            </div>
+          ` : ''}
+          <div class="card-body">
+            <h2 class="card-title">${item.title}</h2>
+            <p class="card-desc">${item.description}</p>
+            <div class="card-footer-row">
+              <a href="${item.link && item.link !== '#' ? item.link : '#'}" target="_blank" class="explore-project-link">${item.link && item.link !== '#' ? 'Visit Link &rarr;' : 'Explore Project &rarr;'}</a>
+              <span class="project-count-badge">${item.subtitle || item.category}</span>
+            </div>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    loadAchievements();
+  </script>
+</body>
+</html>

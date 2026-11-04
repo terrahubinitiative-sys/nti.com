@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NTI Secure Admin Control Panel</title>
+  <style>
+    :root {
+      --bg-dark-1: #090616;
+      --bg-dark-2: #14102b;
+      --card-bg: rgba(20, 16, 43, 0.95);
+      --gold-primary: #f59e0b;
+      --text-muted: #cbd5e1;
+      --border-color: rgba(245, 158, 11, 0.35);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; max-width: 100%; }
+    
+    body {
+      background: linear-gradient(135deg, var(--bg-dark-1) 0%, var(--bg-dark-2) 50%, #0d091e 100%);
+      color: #e2e8f0;
+      font-family: "Times New Roman", Times, serif;
+      font-size: 10pt;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px;
+    }
+
+    .admin-wrapper { max-width: 750px; width: 100%; }
+
+    #loginCard {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 8px 30px rgba(110, 56, 205, 0.3);
+      margin-top: 50px;
+      text-align: center;
+    }
+
+    #loginCard h2 {
+      color: var(--gold-primary);
+      font-size: 14pt;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    #adminDashboard { display: none; width: 100%; }
+
+    .admin-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 8px 30px rgba(110, 56, 205, 0.3);
+      margin-bottom: 24px;
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 10px;
+    }
+
+    .admin-title {
+      color: var(--gold-primary);
+      font-size: 13pt;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .back-link { color: var(--text-muted); text-decoration: none; font-size: 9pt; }
+    .back-link:hover { color: var(--gold-primary); }
+
+    .form-group { margin-bottom: 14px; }
+    .form-group label { display: block; font-size: 9.5pt; color: var(--gold-primary); margin-bottom: 4px; font-weight: bold; }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%;
+      background: #090616;
+      border: 1px solid var(--border-color);
+      color: #fff;
+      padding: 10px;
+      border-radius: 6px;
+      font-family: "Times New Roman", Times, serif;
+      font-size: 10pt;
+      outline: none;
+    }
+
+    .action-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      color: #000;
+      font-weight: bold;
+      font-size: 10pt;
+      border: none;
+      padding: 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      text-transform: uppercase;
+      box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
+    }
+    .action-btn:hover { background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); }
+
+    .record-item {
+      background: rgba(9, 6, 22, 0.8);
+      border: 1px solid var(--border-color);
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .record-info h4 { color: #fff; font-size: 10.5pt; margin-bottom: 2px; }
+    .record-info p { color: var(--text-muted); font-size: 8.5pt; }
+
+    .btn-group { display: flex; gap: 6px; }
+    .edit-btn { background: #3b82f6; color: #fff; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer; font-size: 8.5pt; font-weight: bold; }
+    .delete-btn { background: #ef4444; color: #fff; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer; font-size: 8.5pt; font-weight: bold; }
+
+    .success-msg {
+      display: none;
+      background: rgba(16, 185, 129, 0.2);
+      border: 1px solid #10b981;
+      color: #34d399;
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 14px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    /* Custom Styled Modal Overlay */
+    .custom-modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(9, 6, 22, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .custom-modal-box {
+      background: var(--card-bg);
+      border: 1px solid var(--gold-primary);
+      border-radius: 12px;
+      padding: 24px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 0 30px rgba(245, 158, 11, 0.3);
+    }
+    .custom-modal-box h3 { color: var(--gold-primary); font-size: 12pt; margin-bottom: 10px; text-transform: uppercase; }
+    .custom-modal-box p { color: var(--text-muted); font-size: 10pt; margin-bottom: 20px; }
+    .custom-modal-actions { display: flex; gap: 10px; justify-content: center; }
+  </style>
+</head>
+<body>
+
+  <div class="admin-wrapper">
+    <!-- Login Screen -->
+    <div id="loginCard">
+      <h2>Secure Admin Login</h2>
+      <p style="color: var(--text-muted); margin-bottom: 14px; font-size: 9pt;">Enter administrator password to access control panel.</p>
+      <form id="loginForm">
+        <div class="form-group">
+          <input type="password" id="adminPassword" required placeholder="Enter admin password...">
+        </div>
+        <button type="submit" class="action-btn">Login to Panel</button>
+      </form>
+      <div id="loginError" style="color: #ef4444; margin-top: 10px; font-size: 9pt; display: none;">Invalid Password. Try again.</div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="adminDashboard">
+      <div class="admin-card">
+        <div class="header-top">
+          <h1 class="admin-title" id="formHeaderTitle">Upload New Record</h1>
+          <a href="/home" class="back-link">← Public Dashboard</a>
+        </div>
+
+        <div id="successMsg" class="success-msg">Record successfully saved!</div>
+
+        <form id="recordForm">
+          <input type="hidden" id="recordId">
+          <div class="form-group">
+            <label>Title</label>
+            <input type="text" id="title" required placeholder="e.g. Project TerraLink: Global Data Gateway">
+          </div>
+          <div class="form-group">
+            <label>Subtitle (e.g. Achievement Milestone / Global Gateway)</label>
+            <input type="text" id="subtitle" required placeholder="e.g. Achievement Milestone">
+          </div>
+          <div class="form-group">
+            <label>Category / Section</label>
+            <select id="category">
+              <option value="PROJECTS">Projects</option>
+              <option value="INNOVATIONS">Innovations</option>
+              <option value="IMPACT">Impact</option>
+              <option value="ABOUT">About</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>External Link URL (Clickable destination)</label>
+            <input type="url" id="link" placeholder="https://github.com/... or https://...">
+          </div>
+          <div class="form-group">
+            <label>Date</label>
+            <input type="date" id="date" required>
+          </div>
+          <div class="form-group">
+            <label>Photo (Image)</label>
+            <input type="file" id="image" accept="image/*">
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <textarea id="description" rows="4" required placeholder="Detail the description and impact..."></textarea>
+          </div>
+          
+          <div style="display: flex; gap: 10px;">
+            <button type="submit" class="action-btn" id="saveBtn">Save Record</button>
+            <button type="button" id="cancelEditBtn" style="display: none; background: #64748b; color: #fff; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold;" onclick="resetForm()">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Manage Existing Records -->
+      <div class="admin-card">
+        <h2 class="admin-title" style="margin-bottom: 14px;">Existing Repository Records</h2>
+        <div id="recordsList"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Styled Confirmation Modal -->
+  <div class="custom-modal-overlay" id="customConfirmModal">
+    <div class="custom-modal-box">
+      <h3>Confirm Deletion</h3>
+      <p>Are you sure you want to delete this record from the repository?</p>
+      <div class="custom-modal-actions">
+        <button id="modalCancelBtn" style="background: transparent; color: var(--text-muted); border: 1px solid var(--border-color); padding: 8px 16px; border-radius: 6px; cursor: pointer; font-family: 'Times New Roman'; font-weight: bold;">Cancel</button>
+        <button id="modalConfirmBtn" style="background: #ef4444; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-family: 'Times New Roman'; font-weight: bold;">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let allRecords = [];
+    let deleteTargetId = null;
+
+    document.getElementById('loginForm').onsubmit = async (e) => {
+      e.preventDefault();
+      const password = document.getElementById('adminPassword').value;
+      const res = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password })
+      });
+      const data = await res.json();
+      if (data.success) {
+        document.getElementById('loginCard').style.display = 'none';
+        document.getElementById('adminDashboard').style.display = 'block';
+        loadRecords();
+      } else {
+        document.getElementById('loginError').style.display = 'block';
+      }
+    };
+
+    async function loadRecords() {
+      const res = await fetch('/api/achievements');
+      allRecords = await res.json();
+      const list = document.getElementById('recordsList');
+      if (allRecords.length === 0) {
+        list.innerHTML = '<p style="color: var(--text-muted); text-align: center; padding: 20px;">No records found.</p>';
+        return;
+      }
+      list.innerHTML = allRecords.map(item => `
+        <div class="record-item">
+          <div class="record-info">
+            <h4>${item.title}</h4>
+            <p>${item.category} • ${item.date}</p>
+          </div>
+          <div class="btn-group">
+            <button class="edit-btn" onclick="editRecord(${item.id})">Edit</button>
+            <button class="delete-btn" onclick="promptDelete(${item.id})">Delete</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    document.getElementById('recordForm').onsubmit = async (e) => {
+      e.preventDefault();
+      const id = document.getElementById('recordId').value;
+      const formData = new FormData();
+      formData.append('title', document.getElementById('title').value);
+      formData.append('subtitle', document.getElementById('subtitle').value);
+      formData.append('category', document.getElementById('category').value);
+      formData.append('link', document.getElementById('link').value);
+      formData.append('date', document.getElementById('date').value);
+      formData.append('description', document.getElementById('description').value);
+      
+      const imageFile = document.getElementById('image').files[0];
+      if (imageFile) formData.append('image', imageFile);
+
+      let url = '/api/achievements';
+      let method = 'POST';
+
+      if (id) {
+        url = `/api/achievements/${id}`;
+        method = 'PUT';
+      }
+
+      const res = await fetch(url, { method, body: formData });
+      if (res.ok) {
+        const msg = document.getElementById('successMsg');
+        msg.style.display = 'block';
+        resetForm();
+        loadRecords();
+        setTimeout(() => msg.style.display = 'none', 3000);
+      }
+    };
+
+    function editRecord(id) {
+      const rec = allRecords.find(r => r.id == id);
+      if (!rec) return;
+      document.getElementById('recordId').value = rec.id;
+      document.getElementById('title').value = rec.title;
+      document.getElementById('subtitle').value = rec.subtitle || '';
+      document.getElementById('category').value = rec.category || 'PROJECTS';
+      document.getElementById('link').value = rec.link || '';
+      document.getElementById('date').value = rec.date || '';
+      document.getElementById('description').value = rec.description || '';
+      document.getElementById('formHeaderTitle').innerText = 'Edit Record';
+      document.getElementById('saveBtn').innerText = 'Update Record';
+      document.getElementById('cancelEditBtn').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function promptDelete(id) {
+      deleteTargetId = id;
+      document.getElementById('customConfirmModal').style.display = 'flex';
+    }
+
+    document.getElementById('modalCancelBtn').onclick = () => {
+      document.getElementById('customConfirmModal').style.display = 'none';
+      deleteTargetId = null;
+    };
+
+    document.getElementById('modalConfirmBtn').onclick = async () => {
+      if (deleteTargetId) {
+        await fetch(`/api/achievements/${deleteTargetId}`, { method: 'DELETE' });
+        document.getElementById('customConfirmModal').style.display = 'none';
+        deleteTargetId = null;
+        loadRecords();
+      }
+    };
+
+    function resetForm() {
+      document.getElementById('recordForm').reset();
+      document.getElementById('recordId').value = '';
+      document.getElementById('formHeaderTitle').innerText = 'Upload New Record';
+      document.getElementById('saveBtn').innerText = 'Save Record';
+      document.getElementById('cancelEditBtn').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
