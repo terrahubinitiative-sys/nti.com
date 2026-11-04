@@ -31,28 +31,43 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(uploadsDir));
 
-// Dynamic SEO Sitemap.xml
+// Explicit XML Sitemap Route for Googlebot
 app.get('/sitemap.xml', (req, res) => {
   const achievements = JSON.parse(fs.readFileSync(dbPath, 'utf8') || '[]');
 
   let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
   xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
-  xml += `  <url><loc>${LIVE_URL}/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>\n`;
-  xml += `  <url><loc>${LIVE_URL}/home</loc><changefreq>daily</changefreq><priority>0.9</priority></url>\n`;
+  xml += `  <url>\n`;
+  xml += `    <loc>${LIVE_URL}/</loc>\n`;
+  xml += `    <changefreq>daily</changefreq>\n`;
+  xml += `    <priority>1.0</priority>\n`;
+  xml += `  </url>\n`;
+  xml += `  <url>\n`;
+  xml += `    <loc>${LIVE_URL}/home</loc>\n`;
+  xml += `    <changefreq>daily</changefreq>\n`;
+  xml += `    <priority>0.9</priority>\n`;
+  xml += `  </url>\n`;
+
   achievements.forEach(item => {
-    xml += `  <url><loc>${LIVE_URL}/home#item-${item.id}</loc><lastmod>${item.date}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>\n`;
+    xml += `  <url>\n`;
+    xml += `    <loc>${LIVE_URL}/home#item-${item.id}</loc>\n`;
+    xml += `    <lastmod>${item.date || new Date().toISOString().split('T')[0]}</lastmod>\n`;
+    xml += `    <changefreq>weekly</changefreq>\n`;
+    xml += `    <priority>0.8</priority>\n`;
+    xml += `  </url>\n`;
   });
+
   xml += `</urlset>`;
 
-  res.setHeader('Content-Type', 'application/xml; charset=utf-8');
-  return res.status(200).send(xml);
+  res.header('Content-Type', 'application/xml');
+  res.status(200).send(xml);
 });
 
-// Dynamic Robots.txt
+// Explicit Robots.txt Route
 app.get('/robots.txt', (req, res) => {
   const content = `User-agent: *\nAllow: /\nDisallow: /${ADMIN_ROUTE}\n\nSitemap: ${LIVE_URL}/sitemap.xml`;
-  res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-  return res.status(200).send(content);
+  res.header('Content-Type', 'text/plain');
+  res.status(200).send(content);
 });
 
 // API Routes
@@ -129,7 +144,7 @@ app.delete('/api/achievements/:id', (req, res) => {
   res.json({ success: true });
 });
 
-// Explicit Routes
+// Web Routes
 app.get(`/${ADMIN_ROUTE}`, (req, res) => {
   res.sendFile(path.join(publicDir, 'admin.html'));
 });
@@ -146,7 +161,4 @@ app.use(express.static(publicDir));
 
 app.listen(PORT, () => {
   console.log(`🚀 NTI Server active at ${LIVE_URL}`);
-  console.log(`🗺️ Sitemap: ${LIVE_URL}/sitemap.xml`);
-  console.log(`🤖 Robots.txt: ${LIVE_URL}/robots.txt`);
-  console.log(`🔒 Secure Admin: ${LIVE_URL}/${ADMIN_ROUTE}`);
 });
