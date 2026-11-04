@@ -1,5 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /nti-secure-admin-7789
-
-Sitemap: https://nti-com.onrender.com/sitemap.xml
