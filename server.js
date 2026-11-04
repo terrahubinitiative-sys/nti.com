@@ -16,11 +16,9 @@ const __dirname = path.resolve();
 
 const uploadsDir = path.join(__dirname, 'uploads');
 const dataDir = path.join(__dirname, 'data');
-const publicDir = path.join(__dirname, 'public');
 
 if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
 if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
-if (!fs.existsSync(publicDir)) fs.mkdirSync(publicDir, { recursive: true });
 
 const dbPath = path.join(dataDir, 'achievements.json');
 if (!fs.existsSync(dbPath)) {
@@ -31,7 +29,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(uploadsDir));
 
-// Explicit Routes for Sitemap & Robots from Root
+// Explicit Root Sitemap & Robots (100% foolproof for Googlebot)
 app.get('/sitemap.xml', (req, res) => {
   res.sendFile(path.join(__dirname, 'sitemap.xml'));
 });
@@ -114,21 +112,22 @@ app.delete('/api/achievements/:id', (req, res) => {
   res.json({ success: true });
 });
 
-// Explicit Web Routes
+// Explicit Web Routes from Root
 app.get(`/${ADMIN_ROUTE}`, (req, res) => {
-  res.sendFile(path.join(publicDir, 'admin.html'));
+  res.sendFile(path.join(__dirname, 'admin.html'));
 });
 
 app.get('/home', (req, res) => {
-  res.sendFile(path.join(publicDir, 'home.html'));
+  res.sendFile(path.join(__dirname, 'home.html'));
 });
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(publicDir, 'index.html'));
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.use(express.static(publicDir));
+// Static assets from root
+app.use(express.static(__dirname));
 
 app.listen(PORT, () => {
-  console.log(`🚀 NTI Server active at ${LIVE_URL}`);
+  console.log(`🚀 NTI Unified Server active at ${LIVE_URL}`);
 });
